@@ -1,0 +1,13 @@
+{
+   "storage":"bolt",
+   "bolt":{
+      "path":"~/.avocado/avocado.db",
+      "bucket":"avocado"
+   },
+   "redis":{
+      "address":"localhost:6379",
+      "password":"",
+      "db":0
+   },
+   "publicPath":"~/.avocado/public_key.pem"
+}
