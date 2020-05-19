@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// Config define fields of JSON file
+// Config define fields of JSON file of root configurations
 type Config struct {
 	Storage string `json:"storage"`
 	Bolt    Bolt   `json:"bolt"`
@@ -43,4 +43,26 @@ func parseConfigJSON(configPath string) (*Config, error) {
 	json.Unmarshal(byteJSON, &configuration)
 
 	return &configuration, nil
+}
+
+func initConfiguration(configDir, configFile string) error {
+	config := Config{
+		Storage: "bolt",
+		Public:  configDir + "/" + defaultPublicKeyName,
+		Bolt: Bolt{
+			Path:   configDir + "/" + defaultBoltDB,
+			Bucket: defaultBoltBucker,
+		},
+		Redis: Redis{
+			Address:  defaultRedisAddress,
+			Password: defaultRedisPassword,
+			Db:       defaultRedisDB,
+		},
+	}
+
+	file, err := json.MarshalIndent(config, "", " ")
+
+	err = ioutil.WriteFile(configFile, file, 0644)
+
+	return err
 }
