@@ -14,8 +14,8 @@ var (
 
 	rootCmd = &cobra.Command{
 		Use:     "avocado",
-		Short:   "Avocado is a small surface command line interface to use Avocado SDK",
-		Version: "0.0.1",
+		Short:   "Avocado can be used to encrypt with RSA key the values ​​which will be stored",
+		Version: "0.0.3",
 	}
 
 	defaultPublicKeyName = "public_key.pem"

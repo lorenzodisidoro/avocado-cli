@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:323ef1c999160d12fafa4074b5a5706511baf1cd91a935ae62494791c94abaf4"
+  name = "github.com/atotto/clipboard"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "579379fa8ff8a6d3fa979cec107f8f6d7f8fde90"
+  version = "v0.1.2"
+
+[[projects]]
   digest = "1:e17320223c7c866dfbec405efe8abc8e383ccad131fb76ca7ff70580dafb9067"
   name = "github.com/go-redis/redis"
   packages = [
@@ -97,6 +105,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/atotto/clipboard",
     "github.com/lorenzodisidoro/avocado-sdk",
     "github.com/mitchellh/go-homedir",
     "github.com/spf13/cobra",

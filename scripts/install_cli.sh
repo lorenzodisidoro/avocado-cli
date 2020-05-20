@@ -7,8 +7,8 @@ RELEASE_TAG=$1
 
 if [ -z "$RELEASE_TAG" ]
 then
-  echo -e "Missing release tag argument, using default Avocado version 0.0.2"
-  RELEASE_TAG=0.0.2
+  RELEASE_TAG=0.0.3
+  echo -e "Missing release tag argument, using default Avocado version $RELEASE_TAG"
 fi
 
 case $OSTYPE in

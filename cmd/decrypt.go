@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/atotto/clipboard"
 	sdk "github.com/lorenzodisidoro/avocado-sdk"
 	"github.com/spf13/cobra"
 )
@@ -40,7 +41,7 @@ var cmdDecrypt = &cobra.Command{
 			return err
 		}
 
-		fmt.Println(string(decryptedValueBytes))
+		clipboard.WriteAll(string(decryptedValueBytes))
 
 		return nil
 	},
