@@ -17,6 +17,13 @@ var (
 		Short:   "Avocado is a small surface command line interface to use Avocado SDK",
 		Version: "0.0.1",
 	}
+
+	defaultPublicKeyName = "public_key.pem"
+	defaultBoltDB        = "avocado.db"
+	defaultBoltBucker    = "avocado"
+	defaultRedisAddress  = "localhost:6379"
+	defaultRedisPassword = ""
+	defaultRedisDB       = 0
 )
 
 // Execute executes the root command.
@@ -29,6 +36,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ~/.avocado/config.json)")
 
+	rootCmd.AddCommand(cmdInit)
 	rootCmd.AddCommand(cmdEncrypt)
 	rootCmd.AddCommand(cmdDecrypt)
 }
