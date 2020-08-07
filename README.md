@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.com/lorenzodisidoro/avocado-cli.svg?branch=master)](https://travis-ci.com/lorenzodisidoro/avocado-cli)
 
 # Avocado CLI
-Avocado is a small surface command line interface to use Avocado SDK, it can be used to encrypt with RSA key the values ​​which will be stored.
+Avocado is a small surface command line interface to use [Avocado SDK](https://github.com/lorenzodisidoro/avocado-sdk), it can be used to encrypt with RSA key the values ​​which will be stored.
 
 ## Supported OS
 - OSX
