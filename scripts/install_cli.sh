@@ -7,7 +7,13 @@ RELEASE_TAG=$1
 
 if [ -z "$RELEASE_TAG" ]
 then
-  RELEASE_TAG=0.0.3
+  REPO_URL="https://github.com/lorenzodisidoro/avocado-cli/releases"
+  LATEST_RELEASE_URL="$REPO_URL/latest"
+
+  echo "Latest release URL $LATEST_RELEASE_URL..."
+
+  RELEASE_TAG=$(curl -sL -H 'Accept: application/json' $LATEST_RELEASE_URL | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
+  
   echo -e "Missing release tag argument, using default Avocado version $RELEASE_TAG"
 fi
 

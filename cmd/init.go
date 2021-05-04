@@ -16,40 +16,46 @@ var cmdInit = &cobra.Command{
 	Long:  "",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
-			return fmt.Errorf("Expected RSA private key path")
+			return fmt.Errorf("expected RSA private key path")
 		}
 
 		privateKeyPath := args[0]
 
-		fmt.Println(privateKeyPath)
-		privateKey, err := getPrivateKeyFromFile(privateKeyPath)
-		if err != nil {
-			return err
-		}
+		err := runEInit(privateKeyPath, cfgFile, cfgDir)
 
-		pubASN1, err := x509.MarshalPKIXPublicKey(&privateKey.PublicKey)
-		if err != nil {
-			return err
-		}
-
-		pubBytes := pem.EncodeToMemory(&pem.Block{
-			Type:  "RSA PUBLIC KEY",
-			Bytes: pubASN1,
-		})
-
-		err = initConfiguration(cfgDir, cfgFile)
-		if err != nil {
-			return err
-		}
-
-		publicKeyPath := cfgDir + "/" + defaultPublicKeyName
-		ioutil.WriteFile(publicKeyPath, pubBytes, 0644)
-
-		fmt.Println("Created RSA public key: " + publicKeyPath)
-		fmt.Println("File successfully created")
-
-		return nil
+		return err
 	},
+}
+
+func runEInit(privateKeyPath, configFilePath, configFileDir string) error {
+	fmt.Println(privateKeyPath)
+	privateKey, err := getPrivateKeyFromFile(privateKeyPath)
+	if err != nil {
+		return err
+	}
+
+	pubASN1, err := x509.MarshalPKIXPublicKey(&privateKey.PublicKey)
+	if err != nil {
+		return err
+	}
+
+	pubBytes := pem.EncodeToMemory(&pem.Block{
+		Type:  "RSA PUBLIC KEY",
+		Bytes: pubASN1,
+	})
+
+	err = initConfiguration(configFileDir, configFilePath)
+	if err != nil {
+		return err
+	}
+
+	publicKeyPath := configFileDir + "/" + defaultPublicKeyName
+	ioutil.WriteFile(publicKeyPath, pubBytes, 0644)
+
+	fmt.Println("Created RSA public key: " + publicKeyPath)
+	fmt.Println("File successfully created, avocado is ready 🥑")
+
+	return nil
 }
 
 // bytesToPrivateKey serialises bytes to rsa.PrivateKey

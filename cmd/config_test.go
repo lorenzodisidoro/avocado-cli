@@ -5,7 +5,7 @@ import (
 )
 
 func TestReadConfigJSON(t *testing.T) {
-	path := "./config_test.json"
+	path := "../resources/config.json"
 
 	config, err := parseConfigJSON(path)
 	if err != nil {

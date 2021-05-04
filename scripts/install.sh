@@ -7,8 +7,7 @@ CLI_PATH=$HOME/.avocado
 
 pushd $PARENT_PATH
 
-dep ensure -v
-go generate ./...
+go mod tidy
 
 echo "Installing Avocado CLI into $CLI_PATH"
 
