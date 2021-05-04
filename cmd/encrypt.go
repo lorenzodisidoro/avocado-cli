@@ -6,7 +6,7 @@ import (
 
 	sdk "github.com/lorenzodisidoro/avocado-sdk"
 	"github.com/spf13/cobra"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 var cmdEncrypt = &cobra.Command{
@@ -15,27 +15,22 @@ var cmdEncrypt = &cobra.Command{
 	Long:  "",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
-			return fmt.Errorf("Expected key, value and private-key path arguments")
+			return fmt.Errorf("expected key, value and private-key path arguments")
 		}
 
 		key := args[0]
 
 		fmt.Print("Insert the value to encrypt: ")
-		value, _ := terminal.ReadPassword(0)
+		value, _ := term.ReadPassword(0)
 
 		fmt.Print("\nConfirm the value to encrypt: ")
-		confirmValue, _ := terminal.ReadPassword(0)
+		confirmValue, _ := term.ReadPassword(0)
 
-		if bytes.Compare(confirmValue, value) != 0 || len(value) == 0 {
+		if !bytes.Equal(confirmValue, value) || len(value) == 0 {
 			return fmt.Errorf("\nValue has not been confirmed")
 		}
 
-		config, err := parseConfigJSON(cfgFile)
-		if err != nil {
-			return err
-		}
-
-		storage, err := createStorageClient(config)
+		storage, config, err := getStorageAndConfig(cfgFile)
 		if err != nil {
 			return err
 		}
@@ -55,30 +50,4 @@ var cmdEncrypt = &cobra.Command{
 
 		return nil
 	},
-}
-
-func createStorageClient(config *Config) (*sdk.StorageClient, error) {
-	var storage *sdk.StorageClient
-
-	switch config.Storage {
-	case "bolt":
-		storage = &sdk.StorageClient{
-			Bbolt: &sdk.BboltStorage{
-				SotoragePath: config.Bolt.Path,
-				BucketName:   config.Bolt.Bucket,
-			},
-		}
-	case "redis":
-		storage = &sdk.StorageClient{
-			Redis: &sdk.RedisStorage{
-				Address:  config.Redis.Address,
-				Password: config.Redis.Password,
-				DB:       config.Redis.Db,
-			},
-		}
-	default:
-		return storage, fmt.Errorf("Storage" + config.Storage + " not supported. Storage can be 'bolt' or 'redis'.")
-	}
-
-	return storage, nil
 }

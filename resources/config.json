@@ -1,7 +1,7 @@
 {
    "storage":"bolt",
    "bolt":{
-      "path":"/User/me/.avocado/avocado.db",
+      "path":"~/.avocado/avocado.db",
       "bucket":"avocado"
    },
    "redis":{
@@ -9,5 +9,5 @@
       "password":"",
       "db":0
    },
-   "publicPath":"/User/me/.avocado/public_key.pem"
+   "publicPath":"~/.avocado/public_key.pem"
 }
