@@ -39,6 +39,7 @@ func init() {
 	rootCmd.AddCommand(cmdInit)
 	rootCmd.AddCommand(cmdEncrypt)
 	rootCmd.AddCommand(cmdDecrypt)
+	rootCmd.AddCommand(cmdGet)
 }
 
 func initConfig() {

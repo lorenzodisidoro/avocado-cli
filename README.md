@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.com/lorenzodisidoro/avocado-cli.svg?branch=master)](https://travis-ci.com/lorenzodisidoro/avocado-cli)
 
 # Avocado CLI
-Avocado is a small surface command line interface to use [Avocado SDK](https://github.com/lorenzodisidoro/avocado-sdk), it can be used to encrypt with RSA key the values ​​which will be stored.
+Avocado is a small surface command line interface to use [Avocado SDK](https://github.com/lorenzodisidoro/avocado-sdk), it can be used to manage your passwords with RSA key.
 
 ## Supported OS
 - OSX
@@ -25,22 +25,58 @@ $ avocado
 ## Getting Started
 
 ### Configuration
-Before using Avocado CLI, you need to initialize the `config.json` file, you can do this running the following command
+Before using Avocado CLI, you need to generate an RSA private key, for example running:
 ```sh
-$ avocado init [/PATH/TO/PRIVATE_KEY.pem]
+openssl genrsa -out private_key.pem
+```
+
+
+After that inizialize the CLI configuration file `config.json`, running the following command
+```sh
+avocado init [/PATH/TO/private_key.pem]
 ```
 
 The CLI creates and reads this file in `$HOME/.avocado/` directory.
 
+## How to use
+
 ### Encrypt
-A new value can be encrypted and s@tored using the following command
+A new value can be encrypted and stored using the following command
 ```sh
-$ avocado encrypt [STORAGE_KEY]
+avocado encrypt [STORED_KEY]
+```
+
+### Get
+Print the stored keys
+```sh
+avocado get
 ```
 
 ### Decrypt
 Stored values can be decrypted using the following command
 ```sh
-$ avocado decrypt [STORAGE_KEY] [/PATH/TO/PRIVATE_KEY.pem]
+avocado decrypt [STORED_KEY] [/PATH/TO/PRIVATE_KEY.pem]
 ```
 decrypted value is written in to the clipboard.
+
+## For Developers
+Clone this repository into your `$GOPATH` using
+```sh
+git clone https://github.com/lorenzodisidoro/avocado-cli
+```
+
+moved to the project folder install dependencie with
+```sh
+go mod tidy
+```
+
+The application can be used running 
+```sh
+go run main.go [command]
+```
+
+or create a build and use it
+```sh
+./scripts/build.sh <GOOS> <GOARCH>
+```
+You can build this applications for different Operating Systems and architectures (To find this list of possible platforms, run the following: `go tool dist list`)

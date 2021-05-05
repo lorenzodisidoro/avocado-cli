@@ -14,18 +14,13 @@ var cmdDecrypt = &cobra.Command{
 	Long:  "",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 2 {
-			return fmt.Errorf("Expected key and RSA private key path")
+			return fmt.Errorf("expected key and RSA private key path")
 		}
 
 		key := args[0]
 		privateKeyPath := args[1]
 
-		config, err := parseConfigJSON(cfgFile)
-		if err != nil {
-			return err
-		}
-
-		storage, err := createStorageClient(config)
+		storage, _, err := getStorageAndConfig(cfgFile)
 		if err != nil {
 			return err
 		}
@@ -42,6 +37,7 @@ var cmdDecrypt = &cobra.Command{
 		}
 
 		clipboard.WriteAll(string(decryptedValueBytes))
+		fmt.Println("The value has been copied to clipboard.")
 
 		return nil
 	},
