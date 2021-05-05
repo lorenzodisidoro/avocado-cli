@@ -15,7 +15,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:     "avocado",
 		Short:   "Avocado can be used to encrypt with RSA key the values ​​which will be stored",
-		Version: "0.0.3",
+		Version: "0.21.1",
 	}
 
 	defaultPublicKeyName = "public_key.pem"
