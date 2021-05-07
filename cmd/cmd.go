@@ -14,8 +14,8 @@ var (
 
 	rootCmd = &cobra.Command{
 		Use:     "avocado",
-		Short:   "Avocado can be used to encrypt with RSA key the values ​​which will be stored",
-		Version: "0.21.1",
+		Short:   "Avocado can be used to manage your passwords with RSA key",
+		Version: "0.21.2",
 	}
 
 	defaultPublicKeyName = "public_key.pem"
@@ -40,6 +40,7 @@ func init() {
 	rootCmd.AddCommand(cmdEncrypt)
 	rootCmd.AddCommand(cmdDecrypt)
 	rootCmd.AddCommand(cmdGet)
+	rootCmd.AddCommand(cmdDelete)
 }
 
 func initConfig() {

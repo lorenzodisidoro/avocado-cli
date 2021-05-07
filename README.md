@@ -33,7 +33,7 @@ openssl genrsa -out private_key.pem
 
 After that inizialize the CLI configuration file `config.json`, running the following command
 ```sh
-avocado init [/PATH/TO/private_key.pem]
+avocado init </PATH/TO/PRIVATE_KEY.pem>
 ```
 
 The CLI creates and reads this file in `$HOME/.avocado/` directory.
@@ -43,11 +43,11 @@ The CLI creates and reads this file in `$HOME/.avocado/` directory.
 ### Encrypt
 A new value can be encrypted and stored using the following command
 ```sh
-avocado encrypt [STORED_KEY]
+avocado encrypt <KEY>
 ```
 
 ### Get
-Print the stored keys
+Print the stored elements
 ```sh
 avocado get
 ```
@@ -55,9 +55,15 @@ avocado get
 ### Decrypt
 Stored values can be decrypted using the following command
 ```sh
-avocado decrypt [STORED_KEY] [/PATH/TO/PRIVATE_KEY.pem]
+avocado decrypt <KEY> </PATH/TO/PRIVATE_KEY.pem>
 ```
 decrypted value is written in to the clipboard.
+
+### Delete
+Remove element by key
+```sh
+avocado delete <KEY>
+```
 
 ## For Developers
 Clone this repository into your `$GOPATH` using

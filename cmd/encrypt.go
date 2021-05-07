@@ -15,7 +15,7 @@ var cmdEncrypt = &cobra.Command{
 	Long:  "",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
-			return fmt.Errorf("expected key, value and private-key path arguments")
+			return ErrorMissingKeyAsArg
 		}
 
 		key := args[0]
@@ -27,27 +27,33 @@ var cmdEncrypt = &cobra.Command{
 		confirmValue, _ := term.ReadPassword(0)
 
 		if !bytes.Equal(confirmValue, value) || len(value) == 0 {
-			return fmt.Errorf("\nValue has not been confirmed")
+			return ErrorValuesConfirmation
 		}
 
-		storage, config, err := getStorageAndConfig(cfgFile)
-		if err != nil {
-			return err
-		}
+		err := runEEncrypt(cfgFile, key, value)
 
-		avocado := sdk.Avocado{}
-		err = avocado.New(storage)
-		if err != nil {
-			return err
-		}
-
-		_, err = avocado.EecryptAndStoreValue([]byte(key), value, config.Public)
-		if err != nil {
-			return err
-		}
-
-		fmt.Println("\nEncrypted value stored successfully!")
-
-		return nil
+		return err
 	},
+}
+
+func runEEncrypt(configFilePath, key string, value []byte) error {
+	storage, config, err := getStorageAndConfig(configFilePath)
+	if err != nil {
+		return err
+	}
+
+	avocado := sdk.Avocado{}
+	err = avocado.New(storage)
+	if err != nil {
+		return err
+	}
+
+	_, err = avocado.EecryptAndStoreValue([]byte(key), value, config.Public)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("\nEncrypted value stored successfully!")
+
+	return nil
 }
