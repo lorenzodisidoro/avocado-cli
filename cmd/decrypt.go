@@ -20,25 +20,35 @@ var cmdDecrypt = &cobra.Command{
 		key := args[0]
 		privateKeyPath := args[1]
 
-		storage, _, err := getStorageAndConfig(cfgFile)
+		decryptedValueBytes, err := runEDecrypt(cfgFile, key, privateKeyPath)
 		if err != nil {
 			return err
 		}
 
-		avocado := sdk.Avocado{}
-		err = avocado.New(storage)
+		err = clipboard.WriteAll(string(decryptedValueBytes))
 		if err != nil {
 			return err
 		}
 
-		decryptedValueBytes, err := avocado.FindAndDecryptValueBy([]byte(key), privateKeyPath)
-		if err != nil {
-			return err
-		}
-
-		clipboard.WriteAll(string(decryptedValueBytes))
 		fmt.Println("The value has been copied to clipboard.")
 
-		return nil
+		return err
 	},
+}
+
+func runEDecrypt(configFilePath, key, privateKeyPath string) ([]byte, error) {
+	storage, _, err := getStorageAndConfig(configFilePath)
+	if err != nil {
+		return nil, err
+	}
+
+	avocado := sdk.Avocado{}
+	err = avocado.New(storage)
+	if err != nil {
+		return nil, err
+	}
+
+	decryptedValueBytes, err := avocado.FindAndDecryptValueBy([]byte(key), privateKeyPath)
+
+	return decryptedValueBytes, err
 }
